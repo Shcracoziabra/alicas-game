@@ -8,6 +8,7 @@ export default class Garden {
         this.root = root;
         this.imagesPath = imagesPath;
         this.sounds = [];
+        this.gardenElems = {};
         this.plants = [];
         this.fruits = [];
         this.baskets = [];
@@ -103,8 +104,6 @@ export default class Garden {
         })   
     }
 
-
-
     createCloud(cloudImageFileName, rainImageFileName) {
         const cloudWrapper = document.createElement('div');
         cloudWrapper.classList.add('cloud-wrapper');
@@ -131,8 +130,7 @@ export default class Garden {
                 }
                 resolve();
             }, delay);
-        })
-       
+        })  
     }
 
     removeCloud() {
@@ -180,7 +178,7 @@ export default class Garden {
         const canInfo = document.createElement('div');
         canInfo.classList.add('can-info');
         canInfo.innerHTML = `Водa: <span data-rest></span>/<span data-total></span>л`;
-        this.canInfo = canInfo
+        this.canInfo = canInfo;
     }
 
     addCanInfo(container, delay, positionParams) {
