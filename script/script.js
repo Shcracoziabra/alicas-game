@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
     console.log(document.documentElement.clientWidth, document.documentElement.clientHeight, navigator.userAgent.includes("Chrome"));
 
-    document.body.style.backgroundImage = 'url("../assets/image/bg-optimized.webp")';
+    document.body.style.backgroundImage = `url('../assets/image/bg-optimized.webp')`;
     const root = document.querySelector('.root');
 
     async function checkBasicClientParams(){
