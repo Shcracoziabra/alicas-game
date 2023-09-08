@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
 }
 
 body {
@@ -24,6 +27,55 @@ body {
     backdrop-filter: blur(10px);
     width: 100%;
     height: 100%;
+}
+
+
+.view-0 {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    width: 1400px;
+    height: 700px;
+    background-image: url('../assets/image/bg-0.jpg');
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+.view-1 {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    width: 1400px;
+    height: 700px;
+    background-image: url('../assets/image/bg-1.jpg');
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+.view-2 {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    width: 1400px;
+    height: 700px;
+    background-image: url('../assets/image/bg-2.jpg');
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+.view-3 {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    width: 1400px;
+    height: 700px;
+    background-image: url('../assets/image/bg-3.jpg');
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
 }
 
 .sound {
@@ -64,10 +116,9 @@ body {
     transition: all 0.3s;
 }
 
-.sound.allow .sound-state{
+.sound.play .sound-state{
     transform: rotate(-45deg); 
 }
-
 
 .sound-state::before {
     position: absolute;
@@ -101,26 +152,6 @@ body {
     left: 0px;
 }
 
-
-.welcome {
-    width: 500px;
-    height: 300px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.growPlantContainer {
-    position: relative;
-    overflow: hidden;
-    padding: 20px;
-    width: 1400px;
-    height: 700px;
-    background-image: url('../assets/image/bg.jpg');
-    background-position: left bottom;
-    background-size: 1400px 700px;
-}
-
 .informator{
     display: flex;
     width: 400px;
@@ -131,8 +162,9 @@ body {
 
 .informator_avatar {
     height: 100%;
+    max-height: 200px;
     width: 100px;
-    /*transform: scaleX(-1);*/
+    background: url('../assets/image/cat.png') center bottom / contain no-repeat;
 }
 
 .informator_avatar img {
@@ -142,28 +174,28 @@ body {
     object-position: bottom left;
 }
 
-.informator_text {
+.informator_container {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: 90%;
+    width: 300px;
     height: 100%;
     padding: 10px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.7);
     overflow: hidden;
 
 }
 
-.informator_text-wrapper {
+.informator_text {
     width: 100%;
     height: auto;
     overflow-y: auto;
     margin-bottom: 10px;
 }
 
-.informator_text-wrapper p {
+.informator_text p {
     margin-bottom: 10px;
     font-size: 18px;
     font-family: Pangolin;
@@ -188,6 +220,7 @@ body {
     box-shadow: inset 0px -1px 0px 1px #5868ad,
                 inset 0px 0px 1px 1px #ffffff;
 }
+
 .informator_btn:hover{
     background-color: rgba(255,255,255,1);
     cursor: pointer; 
@@ -197,28 +230,10 @@ body {
                 inset 0px 0px 0px 1px #dce3ff;
 }
 
-.can-info{
-    position: absolute;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    z-index: 99;
-    width: auto;
-    height: auto;
-    padding: 0.2rem;
-    font-size: 1.2rem;
-    font-family: Pangolin;
-    letter-spacing: 2px;
-    color: #452000;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-}
-
-[data-rest], [data-total] {
-    width: 2rem;
-    text-align: end;
-}
 .watering-can {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     z-index: 100;
     position: absolute;
@@ -226,14 +241,39 @@ body {
     bottom: 20px;
     width: 200px;
     height: 200px;
+    background-image: url('../assets/image/watering-can_stand.png');
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
-    transition: filter 0.2s;
-    
+    transition: filter 0.2s; 
 }
 
-.splashes {
+.watering-can p {
+    margin-left: 70px;
+    margin-top: 20px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: Pangolin;
+    width: auto;
+}
+
+.watering-can.moving{
+    cursor: pointer;
+    z-index: 100;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    height: 200px;
+    background-image: url('../assets/image/watering-can_water.png');
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: filter 0.2s; 
+}
+
+.watering-can .splashes {
+    display: none;
     position: absolute;
     bottom: -10px;
     left: -50px;
@@ -242,12 +282,14 @@ body {
     background: url('../assets/image/splash.gif') center center/ contain no-repeat;
 }
 
-.can-standing {
-    background: url('../assets/image/watering-can_stand.png') center center/ contain no-repeat;
-}
-
-.can-taken {
-    background: url('../assets/image/watering-can_water.png') center center/ contain no-repeat;
+.watering-can.active .splashes {
+    display: flex;
+    position: absolute;
+    bottom: -10px;
+    left: -50px;
+    width: 70px;
+    height: 70px;
+    background: url('../assets/image/splash.gif') center center/ contain no-repeat;
 }
 
 .cloud-wrapper {
@@ -269,7 +311,8 @@ body {
     cursor: pointer;
 }
 
-.rain {
+.cloud-wrapper.active .rain {
+    display: flex;
     position: absolute;
     top: 100%;
     width: 100%;
@@ -277,30 +320,23 @@ body {
     background: url("../assets/image/rain.gif") center top/ contain no-repeat;
 }
 
-.hide {
+.rain {
     display: none;
-}
-
-.show {
-    display: flex;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 300px;
+    background: url("../assets/image/rain.gif") center top/ contain no-repeat;
 }
 
 .highlight{
     filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.9));
 }
 
-.disappear {
-    opacity: 0;
-    transition: 3s all;
-}
-
-.appear {
-    opacity: 1;
-    
-}
-
 .pot {
     position: absolute;
+    height: 100px;
+    width: 60px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -312,13 +348,22 @@ body {
     filter: drop-shadow(0px 5px 2px rgba(57, 45, 47, 0.8));
 }
 
+.pot[data-stage='first'] {
+    background-position-x: 33.3%;
+}
+.pot[data-stage='second'] {
+    background-position-x: 66.6%;
+}
+.pot[data-stage='third'] {
+    background-position-x: 100%;
+}
+
 .pot p {
     margin-bottom: 5px;
     color: #fff;
     font-size: 1rem;
     font-family: Pangolin;
     width: auto;
-
 }
 
 .basket {
@@ -331,13 +376,6 @@ body {
     padding: 10px;
     filter: drop-shadow(0px 5px 2px rgba(57, 45, 47, 0.8));
     cursor: pointer;
-}
-
-[data-drop] [data-fruit] {
-    margin-right: 0px;
-    width: 60px;
-    height: 60px;
-    background-color: transparent;
 }
 
 .basket-title {
@@ -357,7 +395,7 @@ body {
     opacity: 1;
 }
 
-[data-fruit] {
+.fruit {
     width: 80px;
     height: 80px;
     margin-right: 20px;
@@ -366,16 +404,21 @@ body {
     background-repeat: no-repeat;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.5);
-    /*border: 5px solid rgba(80, 113, 34, 0.8);*/
     transition: 0.3s all;
     cursor: pointer
 }
 
-[data-fruit]:hover{
+.fruit:hover{
     transform: scale(1.1);
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+.basket .fruit {
+    margin-right: 0px;
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+}
 
 .fruit-container {
     position: absolute;
@@ -385,7 +428,6 @@ body {
     width: auto;
     height: auto;
 }
-
 
 .rainbow {
     top: 0;
@@ -398,14 +440,19 @@ body {
 
 .congrats {
     position: absolute;
+    padding: 20px;
     top: 30%;
-    left: 30%;
+    right: 5%;
     width: 400px;
-    height: 400px;
+    max-height: 400px;
+    height: auto;
     font-size: 24px;
     font-family: Pangolin;
+    font-style: italic;
     color: #452000;
     letter-spacing: 2px;
+    background-color: rgba(255,255,255, 0.9);
+    border-radius: 10px;
 }
 
 .harvest {
@@ -413,8 +460,8 @@ body {
     width: 150px;
     height: 150px;
     position: absolute;
-    top: 380px;
-    left: 860px;
+    top: 480px;
+    left: 460px;
     background: url('../assets/image/harvest.png') center center/ contain no-repeat;
 }
 
@@ -432,15 +479,4 @@ body {
 
 .envelope:hover{
     transform: scale(1.1) rotate(90deg);
-}
-
-
-.sizer {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-    border: 1px yellow solid;
-    width: 60px;
-    height: 50px;
-
 }
