@@ -33,22 +33,22 @@ export const soundParams = [
     },
     {
         name: 'garden',
-        src: 'garden.wav',
+        src: 'garden.mp3',
         loop: true
     },
     {
         name: 'running-water',
-        src: 'running-water.wav',
+        src: 'running-water.mp3',
         loop: true
     },
     {
         name: 'view-intro',
-        src: 'outro.mp3',
+        src: 'view-intro.mp3',
         loop: false
     },
     {
         name: 'fairy',
-        src: 'fairy.wav',
+        src: 'fairy.mp3',
         loop: false
     }
 

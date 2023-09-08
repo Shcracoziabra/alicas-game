@@ -11,7 +11,7 @@ body {
     width: 100vW;
     height: 100vH;
     overflow: hidden;
-    background-image: url("../assets/image/bg.jpg"), linear-gradient(
+    background-image: url("../assets/image/bg-optimized.webp"), linear-gradient(
         to top, 
         rgba(22, 77, 33, 1), 
         rgba(207, 248, 112, 1));
@@ -36,7 +36,7 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-0.jpg');
+    background-image: url('../assets/image/bg-0-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -48,7 +48,7 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-1.jpg');
+    background-image: url('../assets/image/bg-1-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -60,7 +60,7 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-2.jpg');
+    background-image: url('../assets/image/bg-2-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -72,7 +72,7 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-3.jpg');
+    background-image: url('../assets/image/bg-3-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -369,7 +369,7 @@ body {
 .basket {
     position: absolute;
     display: flex;
-    background: url("../assets/image/basket.png") center center/ contain no-repeat;
+    background: url("../assets/image/basket-optimized.webp") center center/ contain no-repeat;
     justify-content: center;
     min-width: 80px;
     min-height: 80px;
@@ -435,7 +435,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('../assets/image/rainbow.png') center center/ contain no-repeat;
+    background: url('../assets/image/rainbow-optimized.webp') center center/ contain no-repeat;
 }
 
 .congrats {
