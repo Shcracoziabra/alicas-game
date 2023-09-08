@@ -11,7 +11,7 @@ body {
     width: 100vW;
     height: 100vH;
     overflow: hidden;
-    background-image: url("../assets/image/bg-optimized.webp"), linear-gradient(
+    background-image: linear-gradient(
         to top, 
         rgba(22, 77, 33, 1), 
         rgba(207, 248, 112, 1));
@@ -36,7 +36,6 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-0-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -48,7 +47,6 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-1-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -60,7 +58,6 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-2-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -72,7 +69,6 @@ body {
     padding: 20px;
     width: 1400px;
     height: 700px;
-    background-image: url('../assets/image/bg-3-optimized.webp');
     background-position: center;
     background-size: cover;
     border-radius: 20px;

@@ -15,6 +15,7 @@ export function toggleSound(selector){
 export async function setWelcomeView({
     container = null, 
     classes = [], 
+    bgImage = '',
     text = [], 
     btnSound, 
     outroSound
@@ -27,6 +28,8 @@ export async function setWelcomeView({
         }
     });
 
+    welcomeView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    
     welcomeView.addTo(container);
     await welcomeView.graduallyAppear(3000, welcomeView.block);
     await setInformator({
@@ -48,6 +51,7 @@ export async function setWelcomeView({
 export async function setGrowingPlantView({
     container = null, 
     classes = [], 
+    bgImage = '',
     text = [], 
     introSound, 
     outroSound, 
@@ -57,33 +61,34 @@ export async function setGrowingPlantView({
 
     introSound && introSound.playWatchingSoundAllowed();
 
-    const welcomeView = new Block({
+    const growPlantView = new Block({
         name: 'plant-view',
         wrapper : {
             classes: classes
         }
     });
 
-    welcomeView.addTo(container);
+    growPlantView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    growPlantView.addTo(container);
     
-    await welcomeView.graduallyAppear(3000, welcomeView.block);
+    await growPlantView.graduallyAppear(3000, growPlantView.block);
 
     await setInformator({
-        container: welcomeView.block, 
+        container: growPlantView.block, 
         text: text, 
     });
     
 
     appearSound.playWatchingSoundAllowed();
     let wateringCan = await setWateringCan({
-        container: welcomeView.block,
+        container: growPlantView.block,
         sounds : toolSounds.find(({toolName}) => toolName === 'watering-can'),
         appearDelay: 1000
     });
     
 
     const cloud = await setCloud({
-        container: welcomeView.block,
+        container: growPlantView.block,
         entityToFill: wateringCan,
         sounds : toolSounds.find(({toolName}) => toolName === 'cloud'),
         appearDelay: 2000
@@ -93,13 +98,13 @@ export async function setGrowingPlantView({
     let plants = [];
 
     await setAllPlants({
-        container: welcomeView.block,
+        container: growPlantView.block,
         plantsParams: plantsParams,
         arrayToSave: plants,
         appearSound: appearSound
     });
 
-    welcomeView.block.addEventListener('mousemove', (e) => {
+    growPlantView.block.addEventListener('mousemove', (e) => {
         if (wateringCan.isMoving ){
             const target = plants.find(plant => plant.isTarget(e));
             if (target) {
@@ -114,14 +119,14 @@ export async function setGrowingPlantView({
     async function removeViewWhenAllPLantsRipe(){
         let out = false;
         return new Promise((resolve, reject) => {
-            welcomeView.block.addEventListener('contextmenu', async (e)=> {
+        growPlantView.block.addEventListener('contextmenu', async (e)=> {
                 e.preventDefault();
                 if(plants.every(plant => plant.finish)) {
                     if (!out) {
                         out = true;
                         outroSound.playWatchingSoundAllowed();
-                        await welcomeView.graduallyDisappear(3000, welcomeView.block);
-                        welcomeView.remove();
+                        await growPlantView.graduallyDisappear(3000, growPlantView.block);
+                        growPlantView.remove();
                         resolve();
                     }   
                 }
@@ -137,7 +142,8 @@ export async function setGrowingPlantView({
 
 export async function setPickFruitView({
     container = null, 
-    classes = [], 
+    classes = [],
+    bgImage = '', 
     text = [], 
     introSound, 
     outroSound, 
@@ -156,6 +162,7 @@ export async function setPickFruitView({
         }
     });
 
+    fruitView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
     fruitView.addTo(container);
     
     await fruitView.graduallyAppear(3000, fruitView.block);
@@ -183,6 +190,7 @@ export async function setPickFruitView({
 export async function setCongratsView({
     container = null, 
     classes = [], 
+    bgImage = '',
     firstTaskText = [], 
     secondTaskText = [], 
     congratsText = [], 
@@ -200,6 +208,7 @@ export async function setCongratsView({
         }
     });
 
+    congratsView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
     congratsView.addTo(container);
     
     await congratsView.graduallyAppear(3000, congratsView.block);
