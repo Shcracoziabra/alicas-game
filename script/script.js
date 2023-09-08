@@ -19,6 +19,8 @@ const dimensionsMessage = `
 window.addEventListener('DOMContentLoaded', async (e) => {
 
     console.log(document.documentElement.clientWidth, document.documentElement.clientHeight, navigator.userAgent.includes("Chrome"));
+
+    document.body.style.backgroundImage = `url('../assets/image/bg-optimized.webp')`;
     const root = document.querySelector('.root');
 
     async function checkBasicClientParams(){
@@ -65,6 +67,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setWelcomeView({
         container: root, 
         classes: ['view-0'], 
+        bgImage: 'bg-0-optimized.wepb',
         text: textParams.find(({name}) => name === 'welcomeText').text,
         btnSound: audios.find(({name}) => name === 'take'),
         outroSound: audios.find(({name}) => name === 'harvest')
@@ -75,6 +78,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setGrowingPlantView({
         container: root, 
         classes: ['view-1'], 
+        bgImage: 'bg-1-optimized.wepb',
         text: textParams.find(({name}) => name === 'growPlantsText').text,
         introSound: audios.find(({name}) => name === 'view-intro'),
         outroSound: audios.find(({name}) => name === 'harvest'),
@@ -96,6 +100,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setPickFruitView({
         container: root,
         classes: ['view-2'],
+        bgImage: 'bg-2-optimized.wepb',
         text: textParams.find(({name}) => name === 'pickFruitText').text,
         imagePath: '../assets/image/',
         dragSound: audios.find(({name}) => name === 'take'),
@@ -108,6 +113,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setCongratsView({
         container: root,
         classes: ['view-3'],
+        bgImage: 'bg-3-optimized.wepb',
         firstTaskText: textParams.find(({name}) => name === 'rainbowText').text,
         secondTaskText: textParams.find(({name}) => name === 'envelopeText').text,
         congratsText: textParams.find(({name}) => name === 'congratsText').text,
