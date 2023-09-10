@@ -8,7 +8,7 @@ import {    setWelcomeView,
 import { soundPath, soundParams } from "./configure/soundParams.js";
 import { textParams } from "./configure/textParams.js"; 
 
-const worksOnlyOnPcMessage = 'Гра працює лише на персональному комп\'ютері у браузері Chrome';
+const worksOnlyOnPcMessage = 'Гра працює лише на персональному комп\'ютері';
 const minWidth = 1200;
 const minHeight = 600;
 const dimensionsMessage = `
@@ -25,16 +25,20 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
     async function checkBasicClientParams(){
         return new Promise((resolve, reject) => {
-            if (navigator.userAgent.includes("Chrome")) {
+            if  (   'ontouchstart' in window ||
+                    navigator.maxTouchPoints > 0  ||
+                    navigator.msMaxTouchPoints > 0 
+                ) 
+            {
+                root.append(worksOnlyOnPcMessage);
+            } else {
                 if( document.documentElement.clientWidth < minWidth ||
                     document.documentElement.clientHeight < minHeight) {
                     root.append(dimensionsMessage);
                 } else {
                     resolve();
                 }
-            } else {
-                root.append(worksOnlyOnPcMessage);
-            }
+            }     
         })
     }
 
