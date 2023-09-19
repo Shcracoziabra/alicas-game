@@ -26,7 +26,10 @@ export default async function setWateringCan({container, sounds, appearDelay}) {
         maxResource: 40
     });
 
-    wateringCan.setTextInPart('resource-count', `${wateringCan.currentResource}л`);
+    wateringCan.setTextInPart({
+        name: 'resource-count', 
+        text: `${wateringCan.currentResource}л`
+    });
     wateringCan.addTo(container);
     wateringCan.followMouse();
 
@@ -47,7 +50,7 @@ export default async function setWateringCan({container, sounds, appearDelay}) {
             if (startMovingSound) {
                 stopMovingSound && stopMovingSound.stop();
                 startMovingSound.stop();
-                startMovingSound.playWatchingSoundAllowed(wateringCan);
+                startMovingSound.playWatchingSoundAllowed();
             }
         }
     });
@@ -62,7 +65,7 @@ export default async function setWateringCan({container, sounds, appearDelay}) {
             if (stopMovingSound) {
                 startMovingSound && startMovingSound.stop();
                 stopMovingSound.stop();
-                stopMovingSound.playWatchingSoundAllowed(wateringCan);
+                stopMovingSound.playWatchingSoundAllowed();
             }
         }
     });
@@ -77,8 +80,14 @@ export default async function setWateringCan({container, sounds, appearDelay}) {
                     wateringCan.looseResource();
                     wateringCan.isActive && wateringCan.target && wateringCan.target.gainResource();
                     wateringCan.target && wateringCan.target.getChangedOnResource();
-                    wateringCan.setTextInPart('resource-count', wateringCan.currentResource + 'л');
-                    wateringCan.target && wateringCan.target.setTextInPart('resource-count', wateringCan.target.currentResource);
+                    wateringCan.setTextInPart({ 
+                        name: 'resource-count', 
+                        text: wateringCan.currentResource + 'л' 
+                    });
+                    wateringCan.target && wateringCan.target.setTextInPart({
+                        name: 'resource-count', 
+                        text: wateringCan.target.currentResource 
+                    });
                 } else {
                     wateringCan.toggleActivityClass();
                     clearInterval(timer);

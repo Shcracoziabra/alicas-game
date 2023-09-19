@@ -82,7 +82,11 @@ export default class Block {
     }
 
     getPart(name) {
-        return this.block.querySelector(`[data-part=${name}]`)
+        if(this.name === name) {
+            return this.block
+        } else {
+            return this.block.querySelector(`[data-part=${name}]`);
+        }   
     }
 
     changeStyleValueGradually(elem, msAnimationTime, callbackToStyleElem, maxValue){
@@ -158,16 +162,18 @@ export default class Block {
         }
     }
  
-    setTextParagraphes(textArray=[]) {
-        this.block.innerHTML = '';
+    setTextParagraphs({name='text',textArray=[]}) {
+        if(this.getPart(name)) {
+            this.getPart(name).innerText = '';
             for (let text of textArray) {
                 const paragraph = document.createElement('p');
                 paragraph.textContent = text;
-                this.block.append(paragraph);
+                this.getPart(name).append(paragraph);
             }
+        }     
     }
 
-    setTextInPart(name, text) {
+    setTextInPart({name, text}) {
         if(this.getPart(name)) {
             this.getPart(name).innerText = text;
         }

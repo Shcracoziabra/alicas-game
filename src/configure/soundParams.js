@@ -1,5 +1,3 @@
-export const soundPath = '../assets/sound/';
-
 export const soundParams = [
     {
         name: 'rain',

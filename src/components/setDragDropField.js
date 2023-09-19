@@ -1,6 +1,17 @@
 import Block from "../baseClasses/block.js";
 
-export async function setDragAndDropPair({container, name, dragContainer, imgForBg, dragClasses, dropClasses, dropTitleClasses, dropTop, dropLeft, appearSound}) {
+export async function setDragAndDropPair({
+    container, 
+    name, 
+    dragContainer, 
+    imgForBg, 
+    dragClasses, 
+    dropClasses, 
+    dropTitleClasses, 
+    dropTop, 
+    dropLeft, 
+    appearSound
+}) {
     const drag = new Block({
         name: name,
         wrapper: {
@@ -21,7 +32,9 @@ export async function setDragAndDropPair({container, name, dragContainer, imgFor
         name: name,
         wrapper: {
             classes: dropClasses,
-            attributes: [{name: 'data-drop', value: name}]
+            attributes: [
+                {name: 'data-drop', value: name}            
+            ]
         },
         innerElems: [
             {
@@ -31,7 +44,7 @@ export async function setDragAndDropPair({container, name, dragContainer, imgFor
         ]
     });
 
-    drop.setTextInPart('title', name);
+    drop.setTextInPart({name: 'title', text: name});
     drag.addTo(dragContainer);
     appearSound.playWatchingSoundAllowed();
 
@@ -44,7 +57,17 @@ export async function setDragAndDropPair({container, name, dragContainer, imgFor
     return ({drag: drag, drop: drop});
 }
 
-export async function setDragAndDropField({dragDropPairParams, container, imagePath, dragSound, dropSound, appearSound}){
+export async function setDragAndDropField({
+    dragDropPairParams, 
+    container, 
+    imagePath, 
+    dragSound, 
+    dropSound, 
+    appearSound, 
+    infoInstance,
+    wrongMatchText,
+    rightMatchText
+}) {
     return new Promise((resolve, reject) => {
 
         let harvestContainer = new Block({
@@ -58,7 +81,7 @@ export async function setDragAndDropField({dragDropPairParams, container, imageP
 
         let dragged;
 
-        dragDropPairParams.forEach(async({name, top, left, imgFruit})=> {
+        dragDropPairParams.forEach(async({ name, top, left, imgFruit })=> {
             const pair = await setDragAndDropPair({
                 container: container,
                 name: name,
@@ -76,6 +99,9 @@ export async function setDragAndDropField({dragDropPairParams, container, imageP
 
             drag.block.addEventListener('dragstart', (e) => {
                 dragged = e.target;
+                if (e.target.parentElement.matches('[data-filled]')) {
+                    e.target.parentElement.removeAttribute('data-filled');
+                }
                 dragSound.playWatchingSoundAllowed();
             });
 
@@ -86,8 +112,10 @@ export async function setDragAndDropField({dragDropPairParams, container, imageP
             drop.block.addEventListener('drop', (e) => {
                 e.preventDefault();
 
+
                 if(e.target.matches('[data-drop]') && !e.target.querySelector('[data-drag')) {
                     e.target.append(dragged);
+                    e.target.setAttribute('data-filled', true);
                     if(e.target.getAttribute('data-drop') === dragged.getAttribute('data-drag')) {
                         dragged.setAttribute('data-match', true);
                     } else {
@@ -97,12 +125,33 @@ export async function setDragAndDropField({dragDropPairParams, container, imageP
                     dragged = null;
                 }
 
+                const filledBaskets = container.querySelectorAll('[data-filled]');
                 const harvest = container.querySelectorAll('[data-match=true]');
 
-                if(dragDropPairParams.length === harvest.length) {
-                    setTimeout(() => {
-                        resolve();
-                    },2000)
+
+                async function onAllDropped(){
+                    if (dragDropPairParams.length === harvest.length) {
+                        await infoInstance.graduallyDisappear(1000, infoInstance.block);
+                        infoInstance.setTextParagraphs({
+                            name: 'content',
+                            textArray: rightMatchText
+                        });
+                        await infoInstance.graduallyAppear(1000, infoInstance.block);
+                        setTimeout(() => {
+                            resolve();
+                        }, 2000);
+                    } else {
+                        await infoInstance.graduallyDisappear(1000, infoInstance.block);
+                        infoInstance.setTextParagraphs({
+                            name: 'content',
+                            textArray: wrongMatchText
+                        });
+                        await infoInstance.graduallyAppear(1000, infoInstance.block);
+                    }
+                }
+
+                if (dragDropPairParams.length === filledBaskets.length) {
+                    onAllDropped();
                 }
             });
 

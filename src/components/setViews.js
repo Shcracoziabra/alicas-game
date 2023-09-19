@@ -18,7 +18,8 @@ export async function setWelcomeView({
     bgImage = '',
     text = [], 
     btnSound, 
-    outroSound
+    outroSound,
+    imagePath = ''
 }) {
 
     const welcomeView = new Block({
@@ -28,7 +29,8 @@ export async function setWelcomeView({
         }
     });
 
-    welcomeView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    welcomeView.block.style.backgroundImage = `url('${imagePath}${bgImage}')`;
+    welcomeView.block.style.filter = 'none';
     
     welcomeView.addTo(container);
     await welcomeView.graduallyAppear(3000, welcomeView.block);
@@ -39,7 +41,7 @@ export async function setWelcomeView({
             text:'Почнімо!',
             className: 'informator_btn',
             sound: btnSound,
-            delay: 1000
+            delay: 0
         }
     });
     outroSound.playWatchingSoundAllowed();
@@ -56,7 +58,8 @@ export async function setGrowingPlantView({
     introSound, 
     outroSound, 
     toolSounds = [], 
-    appearSound
+    appearSound,
+    imagePath = ''
 }) {
 
     introSound && introSound.playWatchingSoundAllowed();
@@ -68,7 +71,8 @@ export async function setGrowingPlantView({
         }
     });
 
-    growPlantView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    growPlantView.block.style.backgroundImage = `url('${imagePath}${bgImage}')`;
+    growPlantView.block.style.filter = 'none';
     growPlantView.addTo(container);
     
     await growPlantView.graduallyAppear(3000, growPlantView.block);
@@ -120,7 +124,6 @@ export async function setGrowingPlantView({
         let out = false;
         return new Promise((resolve, reject) => {
         growPlantView.block.addEventListener('contextmenu', async (e)=> {
-                e.preventDefault();
                 if(plants.every(plant => plant.finish)) {
                     if (!out) {
                         out = true;
@@ -150,7 +153,9 @@ export async function setPickFruitView({
     appearSound, 
     dragSound, 
     dropSound, 
-    imagePath = ''
+    imagePath = '',
+    wrongMatchText,
+    rightMatchText
 }) {
 
    introSound && introSound.playWatchingSoundAllowed();
@@ -162,12 +167,13 @@ export async function setPickFruitView({
         }
     });
 
-    fruitView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    fruitView.block.style.backgroundImage = `url('${imagePath}${bgImage}')`;
+    fruitView.block.style.filter = 'none';
     fruitView.addTo(container);
     
     await fruitView.graduallyAppear(3000, fruitView.block);
     
-    await setInformator({
+    const { wrapper } = await setInformator({
         container: fruitView.block, 
         text: text, 
     });
@@ -178,7 +184,10 @@ export async function setPickFruitView({
         imagePath: imagePath,
         dragSound: dragSound,
         dropSound: dropSound,
-        appearSound: appearSound
+        appearSound: appearSound,
+        infoInstance: wrapper,
+        wrongMatchText: wrongMatchText,
+        rightMatchText: rightMatchText
     })    
     
     outroSound.playWatchingSoundAllowed();
@@ -197,7 +206,8 @@ export async function setCongratsView({
     harvestSound,
     rainbowSound,
     introSound, 
-    outroSound
+    outroSound,
+    imagePath = ''
 }) {
     introSound && introSound.playWatchingSoundAllowed();
 
@@ -208,12 +218,13 @@ export async function setCongratsView({
         }
     });
 
-    congratsView.block.style.backgroundImage = `url('../assets/image/${bgImage}')`;
+    congratsView.block.style.backgroundImage = `url('${imagePath}${bgImage}')`;
+    congratsView.block.style.filter = 'none';
     congratsView.addTo(container);
     
     await congratsView.graduallyAppear(3000, congratsView.block);
     
-    let {informator, message} = await setInformator({
+    let {informator, wrapper} = await setInformator({
         container: congratsView.block, 
         text: firstTaskText, 
     });
@@ -250,20 +261,25 @@ export async function setCongratsView({
                 rainbowSound.playWatchingSoundAllowed();
                 await rainbow.graduallyAppear(3000, rainbow.block);
                 resolve();
-            }, {once: true});
+            }, { once: true });
         })
     }
 
     await rainbowPromise();
 
-    await message.graduallyDisappear(2000, message.block);
-    message.setTextParagraphes(secondTaskText);
+    await wrapper.graduallyDisappear(2000, wrapper.block);
+    wrapper.setTextParagraphs({
+        name: 'content',
+        textArray: secondTaskText
+    });
 
     harvestSound.playWatchingSoundAllowed();
-    await message.graduallyAppear(2000, message.block);
+    await wrapper.graduallyAppear(2000, wrapper.block);
 
-    await informator.hide(informator.getPart('container'), 5000);
-    informator.place({params: {top: '384px', left: '700px', bottom: ''}});
+    await informator.hide(informator.getPart('aside'), 5000);
+    informator.place({
+        params: {top: '384px', left: '700px', bottom: ''}
+    });
 
     let envelope = new Block({
         name: 'envelope',
@@ -273,12 +289,17 @@ export async function setCongratsView({
     });
 
     envelope.addTo(congratsView.block);
-    envelope.place({params: {top: '430px', left: '650px'}});
+    envelope.place({
+        params: {top: '430px', left: '650px'}
+    });
     harvestSound.playWatchingSoundAllowed();
 
     envelope.block.addEventListener('click', async ()=>{
         congrats.addTo(congratsView.block);
-        congrats.setTextParagraphes(congratsText);
+        congrats.setTextParagraphs({
+            name: 'congrats',
+            textArray: congratsText
+        });
         envelope.block.remove();
 
         outroSound.playWatchingSoundAllowed();

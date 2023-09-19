@@ -128,10 +128,16 @@ export default class Tool extends Block {
         const timer = setInterval(()=> {
             if(this.isActive) {
                 this.looseResource();
-                showCurrentResource && this.setTextInPart('resource-count', `${this.currentResource} ${units}`);
+                showCurrentResource && this.setTextInPart({
+                    name: 'resource-count', 
+                    text: `${this.currentResource} ${units}`
+                });
                 responsibleOpacity && this.setOpacityOnResource();
                 entityToFill.gainResource();
-                entityToFill.setTextInPart('resource-count', `${entityToFill.currentResource} ${units}`);
+                entityToFill.setTextInPart({
+                    name: 'resource-count', 
+                    text: `${entityToFill.currentResource} ${units}`
+                });
             } else {
                 clearInterval(timer);
                 if(this.renewResourceOnEnd) {
@@ -158,7 +164,10 @@ export default class Tool extends Block {
             const timer = setInterval(()=> {
                 if(!this.isActive && this.currentResource < this.maxResource) {
                     this.currentResource ++;
-                    showCurrentResource && this.setTextInPart('resource-count', this.currentResource);
+                    showCurrentResource && this.setTextInPart({
+                        name: 'resource-count', 
+                        text: this.currentResource
+                    });
                     responsibleOpacity && this.setOpacityOnResource();
                 } else {
                     clearInterval(timer)

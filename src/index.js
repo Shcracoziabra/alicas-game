@@ -5,10 +5,15 @@ import {    setWelcomeView,
             setCongratsView, 
             toggleSound 
         } from "./components/setViews.js";
-import { soundPath, soundParams } from "./configure/soundParams.js";
+        
+import { soundParams } from "./configure/soundParams.js";
 import { textParams } from "./configure/textParams.js"; 
 
+const imagePath = "./assets/image/";
+const soundPath = "./assets/sound/";
+
 const worksOnlyOnPcMessage = 'Гра працює лише на персональному комп\'ютері';
+
 const minWidth = 1200;
 const minHeight = 600;
 const dimensionsMessage = `
@@ -16,11 +21,14 @@ const dimensionsMessage = `
     Збільшіть вікно браузера та перезавантажте сторінку.
 `;
 
+const wrongDeviceMessage = document.createElement('div');
+wrongDeviceMessage.classList.add('wrong-device');
+
 window.addEventListener('DOMContentLoaded', async (e) => {
 
-    console.log(document.documentElement.clientWidth, document.documentElement.clientHeight, navigator.userAgent.includes("Chrome"));
-
-    document.body.style.backgroundImage = `url('../assets/image/bg-optimized.webp')`;
+    window.addEventListener('contextmenu', (e)=> {
+        e.preventDefault();
+    })
     const root = document.querySelector('.root');
 
     async function checkBasicClientParams(){
@@ -30,11 +38,14 @@ window.addEventListener('DOMContentLoaded', async (e) => {
                     navigator.msMaxTouchPoints > 0 
                 ) 
             {
-                root.append(worksOnlyOnPcMessage);
+                !root.querySelector('.wrong-device') && root.append(wrongDeviceMessage);
+                wrongDeviceMessage.append(worksOnlyOnPcMessage);
             } else {
                 if( document.documentElement.clientWidth < minWidth ||
                     document.documentElement.clientHeight < minHeight) {
-                    root.append(dimensionsMessage);
+
+                        !root.querySelector('.wrong-device') && root.append(wrongDeviceMessage);
+                        wrongDeviceMessage.append(dimensionsMessage);
                 } else {
                     resolve();
                 }
@@ -60,8 +71,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     
     toggleSound(soundToggleSelector);
     
-    
-    
     const game = {
         isActive: true
     }
@@ -71,10 +80,11 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setWelcomeView({
         container: root, 
         classes: ['view-0'], 
-        bgImage: 'bg-0-optimized.wepb',
+        bgImage: 'bg-0.jpg',
         text: textParams.find(({name}) => name === 'welcomeText').text,
         btnSound: audios.find(({name}) => name === 'take'),
-        outroSound: audios.find(({name}) => name === 'harvest')
+        outroSound: audios.find(({name}) => name === 'harvest'),
+        imagePath: imagePath
     });
     
     gardenSound.playWatchingSoundAllowed(game);
@@ -82,11 +92,12 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setGrowingPlantView({
         container: root, 
         classes: ['view-1'], 
-        bgImage: 'bg-1-optimized.wepb',
+        bgImage: 'bg-1.jpg',
         text: textParams.find(({name}) => name === 'growPlantsText').text,
         introSound: audios.find(({name}) => name === 'view-intro'),
         outroSound: audios.find(({name}) => name === 'harvest'),
         appearSound: audios.find(({name}) => name === 'place'),
+        imagePath: imagePath,
         toolSounds: [
             {
                 toolName: 'watering-can',
@@ -104,27 +115,30 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     await setPickFruitView({
         container: root,
         classes: ['view-2'],
-        bgImage: 'bg-2-optimized.wepb',
+        bgImage: 'bg-2.jpg',
         text: textParams.find(({name}) => name === 'pickFruitText').text,
-        imagePath: '../assets/image/',
+        imagePath: imagePath,
         dragSound: audios.find(({name}) => name === 'take'),
         dropSound: audios.find(({name}) => name === 'put'),
         appearSound: audios.find(({name}) => name === 'place'),
         introSound: audios.find(({name}) => name === 'view-intro'),
-        outroSound: audios.find(({name}) => name === 'harvest')
+        outroSound: audios.find(({name}) => name === 'harvest'),
+        wrongMatchText: textParams.find(({name}) => name === 'wrongMatchText').text,
+        rightMatchText: textParams.find(({name}) => name === 'rightMatchText').text
     });
     
     await setCongratsView({
         container: root,
         classes: ['view-3'],
-        bgImage: 'bg-3-optimized.wepb',
+        bgImage: 'bg-3.jpg',
         firstTaskText: textParams.find(({name}) => name === 'rainbowText').text,
         secondTaskText: textParams.find(({name}) => name === 'envelopeText').text,
         congratsText: textParams.find(({name}) => name === 'congratsText').text,
         harvestSound: audios.find(({name}) => name === 'harvest'),
         rainbowSound: audios.find(({name}) => name === 'rainbow'),
         introSound: audios.find(({name}) => name === 'view-intro'),
-        outroSound: audios.find(({name}) => name === 'fairy')
+        outroSound: audios.find(({name}) => name === 'fairy'),
+        imagePath: imagePath
     })
 });
 
